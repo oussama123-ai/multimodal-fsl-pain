@@ -7,7 +7,6 @@
 > **Self-Supervised Contrastive Transfer Learning for Few-Shot Multimodal Infant Pain Recognition: A Pilot Cross-Domain Study**
 >
 > Oussama El Othmani, Riadh Ouersighni, Sami Naouali
-> *Frontiers in Pediatrics* — Manuscript ID: 1813543
 
 ---
 
