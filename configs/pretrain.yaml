@@ -1,0 +1,34 @@
+# configs/pretrain.yaml
+# Phase 1: Self-Supervised Contrastive Pretraining
+
+data:
+  unbc_root:   data/unbc_mcmaster
+  biovid_root: data/biovid
+  n_frames:    16
+
+model:
+  video_pretrained: true
+  dropout: 0.1
+  proj_dim: 128
+
+training:
+  epochs:          100
+  batch_size:      16
+  lr:              1.0e-4
+  weight_decay:    1.0e-4
+  temperature:     0.1          # tau — optimized via grid search
+  lambda_intra:    0.3
+  lambda_cross:    0.5
+  lambda_momentum: 0.2
+  momentum:        0.99         # EMA decay for momentum encoders
+  warmup_epochs:   10
+  grad_clip:       1.0
+  use_amp:         true
+
+output:
+  dir:    checkpoints/pretrain
+  every:  10                    # save checkpoint every N epochs
+
+logging:
+  wandb:   false
+  project: multimodal-fsl-pain

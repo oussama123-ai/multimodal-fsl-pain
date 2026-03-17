@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Data (never commit raw data)
+data/
+*.avi
+*.mp4
+*.wav
+*.npy
+
+# Checkpoints
+checkpoints/
+*.pt
+*.pth
+
+# Results
+results/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# W&B
+wandb/
+
+# Docker
+.docker/
+
+# OS
+.DS_Store
+Thumbs.db

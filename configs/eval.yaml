@@ -1,0 +1,21 @@
+# configs/eval.yaml
+# Full evaluation pipeline configuration
+
+checkpoint:  checkpoints/finetuned/best.pt
+data_root:   data
+domain:      neonatal          # 'adult' | 'neonatal'
+eval_mode:   loso              # 'loso' | 'kfold' | 'ablation' | 'mmd'
+
+few_shot:
+  k_shot:   10
+  n_way:    2
+  n_query:  15
+  episodes: 1000
+
+uncertainty:
+  mc_passes: 50
+  threshold: 0.3               # flag for human review if uncertainty > threshold
+
+output_dir: results
+device:     cuda
+seed:       42

@@ -1,0 +1,27 @@
+# configs/finetune.yaml
+# Phase 2: Few-Shot Fine-Tuning
+
+data:
+  neo_root:    data/neonatal
+  biovid_root: data/biovid
+  n_frames:    16
+  binary:      true
+
+few_shot:
+  n_way:       2
+  k_shot:      10              # {1, 3, 5, 10}
+  n_query:     15
+
+training:
+  epochs:             50
+  episodes_per_epoch: 1000
+  val_episodes:       500
+  lr_pretrained:      1.0e-5   # lower LR for ViT backbone
+  lr_new:             1.0e-4   # higher LR for fusion / proto head
+  weight_decay:       1.0e-4
+  patience:           15       # early stopping
+  grad_clip:          1.0
+  use_amp:            true
+
+pretrained_ckpt: checkpoints/pretrain/best.pt
+output_dir:      checkpoints/finetuned
