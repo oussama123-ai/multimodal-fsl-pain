@@ -158,21 +158,6 @@ Domain gap: MMD = 0.142 (pre-adaptation) → 0.067 (post-adaptation).
 
 ---
 
-## Citation
-
-```bibtex
-@article{elothmani2025ssl,
-  title   = {Self-Supervised Contrastive Transfer Learning for Few-Shot Multimodal
-             Infant Pain Recognition: A Pilot Cross-Domain Study},
-  author  = {El Othmani, Oussama and Ouersighni, Riadh and Naouali, Sami},
-  journal = {Frontiers in Pediatrics},
-  year    = {2025},
-  note    = {Manuscript ID: 1813543}
-}
-```
-
----
-
 ## Ethics and Clinical Use
 
 This work involves human subjects data collected under IRB Protocol #2023-IRB-045. The framework is intended **solely for research purposes** and must not be used clinically without prospective multi-center validation.
