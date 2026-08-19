@@ -1,0 +1,6 @@
+subject_id,gestational_age_weeks,procedure,loso_auc_1shot,loso_auc_10shot,pain_instances,nopain_instances
+N-07,29.4,postop,0.591,0.641,21,14
+N-12,28.6,postop,0.612,0.658,19,17
+N-18,30.1,postop,0.634,0.679,23,15
+N-23,29.8,postop,0.648,0.693,17,20
+N-29,31.2,postop,0.621,0.671,20,16
