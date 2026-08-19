@@ -1,0 +1,106 @@
+common:
+  seeds: [0, 1, 2, 3, 4]      
+  n_seeds: 5                  
+  eval_protocol: loso
+  metric_for_selection: auc_roc
+
+# ---------------------------------------------------------------------------
+# Classical / non-deep baselines
+# ---------------------------------------------------------------------------
+
+svm_rbf:
+  description: "SVM with RBF kernel on hand-crafted / pooled features"
+  optimizer:
+    solver: libsvm_smo
+    C: 1.0                      
+    gamma: scale                
+    class_weight: balanced
+  hyperparameter_search:
+    method: grid_search
+    search_space:
+      C: [0.01, 0.1, 1.0, 10.0, 100.0]
+      gamma: [scale, auto, 0.001, 0.01, 0.1, 1.0]
+    budget: "5 x 6 = 30 configurations x 5 seeds = 150 fits"   # 
+    inner_cv: loso
+    n_trials: 30                
+
+random_forest:
+  description: "Random Forest classifier on pooled multimodal features"
+  optimizer:
+    criterion: gini
+    n_estimators: 500           
+    max_depth: 10                
+    min_samples_leaf: 2          
+    class_weight: balanced
+  hyperparameter_search:
+    method: random_search
+    search_space:
+      n_estimators: [100, 300, 500, 800]
+      max_depth: [null, 5, 10, 20]
+      min_samples_leaf: [1, 2, 5, 10]
+    budget: "40 sampled configurations x 5 seeds = 200 fits"   
+    n_trials: 40                 
+    inner_cv: loso
+
+logistic_regression:
+  description: "L2-regularized logistic regression on pooled features (linear baseline)"
+  optimizer:
+    solver: lbfgs
+    max_iter: 1000
+    C: 1.0                       
+    class_weight: balanced
+  hyperparameter_search:
+    method: grid_search
+    search_space:
+      C: [0.001, 0.01, 0.1, 1.0, 10.0, 100.0]
+    budget: "6 configurations x 5 seeds = 30 fits"   
+    inner_cv: loso
+
+mlp_scratch:
+  description: "2-layer MLP trained from scratch on pooled multimodal features (no pretraining)"
+  optimizer:
+    name: adamw
+    lr: 1.0e-3                   
+    weight_decay: 1.0e-4         
+    betas: [0.9, 0.999]
+    batch_size: 32               
+    epochs: 100                  
+    lr_schedule: cosine
+    early_stopping_patience: 15  
+  hyperparameter_search:
+    method: random_search
+    search_space:
+      lr: [1.0e-4, 3.0e-4, 1.0e-3, 3.0e-3]
+      weight_decay: [0.0, 1.0e-5, 1.0e-4, 1.0e-3]
+      hidden_dim: [128, 256, 512]
+    budget: "25 sampled trials x 5 seeds = 125 fits"   
+    n_trials: 25                 
+    inner_cv: loso
+
+cnn_from_scratch:
+  description: "Same encoder architectures as the proposed model (ViT/ResNet-18/1D-CNN), trained end-to-end from random initialization, no contrastive pretraining and no few-shot head (standard supervised classification)."
+  optimizer:
+    name: adamw
+    lr: 1.0e-4                   
+    weight_decay: 1.0e-4         
+    batch_size: 16               
+    epochs: 100                  
+    lr_schedule: cosine
+    warmup_epochs: 10            
+    grad_clip: 1.0
+    use_amp: true
+  hyperparameter_search:
+    method: random_search
+    search_space:
+      lr: [1.0e-5, 3.0e-5, 1.0e-4, 3.0e-4, 1.0e-3]
+      weight_decay: [0.0, 1.0e-5, 1.0e-4]
+    budget: "20 sampled trials x 5 seeds = 100 fits"   
+    n_trials: 20                 
+    inner_cv: loso
+
+# ---------------------------------------------------------------------------
+# Lightweight / frozen-encoder baseline (requested comparison)
+# ---------------------------------------------------------------------------
+frozen_encoder_linear_probe:
+  description: "ImageNet/AudioSet-pretrained encoders FROZEN (no fine-tuning, no contrastive pretraining on UNBC/BioVid), features pooled and passed to a linear (or shallow MLP) probe trained under the same k-shot / LOSO protocol as the proposed method."
+  config_ref: configs/baseline_frozen_encoder.yaml

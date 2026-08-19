@@ -1,0 +1,9 @@
+subject_id,gestational_age_weeks_birth,postmenstrual_age_weeks_assessment,birth_weight_g,sex,nicu_site,n_recordings,n_pain_labeled,n_no_pain_labeled,modalities_available,loso_fold_notes
+NEO-003,28,33,1050,F,site_1,7,4,3,video+audio+physio,
+NEO-006,30,35,1420,M,site_1,5,2,3,video+audio+physio,
+NEO-009,27,32,980,F,site_2,8,4,4,video+physio,audio unavailable
+NEO-011,31,36,1610,M,site_2,6,3,3,video+audio+physio,
+NEO-014,29,34,1180,F,site_2,6,3,3,video+audio+physio,
+NEO-018,32,36,1750,M,site_1,5,2,3,video+audio+physio,
+NEO-021,26,31,860,F,site_1,9,5,4,video+physio,audio unavailable
+NEO-025,30,35,1390,M,site_2,6,3,3,video+audio+physio,

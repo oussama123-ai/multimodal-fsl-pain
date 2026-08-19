@@ -1,0 +1,49 @@
+# configs/baseline_frozen_encoder.yaml
+#
+# Lightweight / frozen-encoder baseline requested in review.
+#
+encoders:
+  video:
+    backbone: vit_base_patch16_224
+    pretrained_weights: imagenet
+    freeze: true
+  audio:
+    backbone: resnet18_melspec
+    pretrained_weights: imagenet_transferred   
+    freeze: true
+  physio:
+    backbone: physio_1dcnn
+    pretrained_weights: none
+    freeze: true
+
+fusion:
+  type: concat_and_pool
+  probe_head: linear
+  mlp_hidden_dim: 128
+
+few_shot:
+  n_way: 2
+  k_shot: [1, 3, 5, 10]
+  n_query: 15
+  episodes: 1000
+
+probe_training:
+  optimizer:
+    name: adamw
+    lr: 1.0e-3                   
+    weight_decay: 1.0e-4         
+    batch_size: 32               
+    epochs: 30                   
+    early_stopping_patience: 10  
+  hyperparameter_search:
+    method: grid_search
+    search_space:
+      lr: [1.0e-4, 3.0e-4, 1.0e-3, 3.0e-3]
+      probe_head: [linear, mlp_1layer]
+    budget: "4 x 2 = 8 configurations x 5 seeds = 40 fits"  
+    inner_cv: loso
+
+eval_protocol: loso
+seeds: [0, 1, 2, 3, 4]
+device: cuda
+output_dir: results/baselines/frozen_encoder_linear_probe
